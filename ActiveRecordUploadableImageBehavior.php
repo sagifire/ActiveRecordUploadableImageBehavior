@@ -25,7 +25,6 @@ class ActiveRecordUploadableImageBehavior extends CActiveRecordBehavior {
     public function beforeValidate($event) {
         foreach($this->imageAttributes as $key => $attributeConfig) {
             $this->owner->{$key} = CUploadedFile::getInstance($this->owner, $key);
-
             if ($this->owner->{$key}) {
                 try {
                     Yii::app()->image->load($this->owner->{$key}->getTempName());
@@ -38,7 +37,6 @@ class ActiveRecordUploadableImageBehavior extends CActiveRecordBehavior {
                     $event->isValid = false;
                 }
             }
-
             if (!$event->isValid)
                 break;
         }
