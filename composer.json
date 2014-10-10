@@ -1,0 +1,17 @@
+{
+  "name": "sagifire/ActiveRecordUploadableImageBehavior",
+  "description": "Yii active record uploadable image behavior",
+  "keywords": ["yii", "active record", "image", "upload"],
+  "homepage": "https://github.com/sagifire/ActiveRecordUploadableImageBehavior",
+  "license": "BSD-3-Clause",
+  "authors": [
+    {
+      "name": "Andrew G Chvyl",
+      "email": "achvyl@gmail.coml",
+      "hompage": "http://sagifire.pp.ua"
+    },
+  ],
+  "require": {
+    "php": ">=5.4"
+  },
+}
