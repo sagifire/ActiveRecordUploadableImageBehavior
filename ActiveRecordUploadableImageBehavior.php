@@ -106,13 +106,12 @@ class ActiveRecordUploadableImageBehavior extends CActiveRecordBehavior {
                     unlink($imageFilename);
 
                 $imageFile->save($imageFilename);
-					if (method_exist($this->owner, 'onAfterImageSave')) {
-                        $this->owner->reiseEvent('onAfterImageSave', array(
-                            'image' => $imageFile,
-                            'sourceFilename' => $this->owner->{$key}->getTempName(),
-                        ));
-                    }
-				}
+                if (method_exist($this->owner, 'onAfterImageSave')) {
+                    $this->owner->reiseEvent('onAfterImageSave', array(
+                        'image' => $imageFile,
+                        'sourceFilename' => $this->owner->{$key}->getTempName(),
+                    ));
+                }
 
                 if (isset($attributeConfig['urlAttribute'])) {
                     $updateAttributes = array();
