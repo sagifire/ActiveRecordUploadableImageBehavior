@@ -9,7 +9,7 @@
       "name": "Andrew G Chvyl",
       "email": "achvyl@gmail.coml",
       "hompage": "http://sagifire.pp.ua"
-    },
+    }
   ],
   "require": {
     "php": ">=5.4"
