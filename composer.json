@@ -13,6 +13,6 @@
   ],
   "require": {
     "php": ">=5.4",
-    "z_bodya/yii-image" : "dev-master"
+    "z_bodya/yii-image": "dev-master"
   }
 }
