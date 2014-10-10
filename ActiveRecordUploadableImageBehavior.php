@@ -34,7 +34,7 @@ class ActiveRecordUploadableImageBehavior extends CActiveRecordBehavior {
                     if (isset($attributeConfig['urlAttribute']) && $this->owner->{$key} && !$this->owner->{$attributeConfig['urlAttribute']})
                         $this->owner->{$attributeConfig['urlAttribute']} = $attributeConfig['defaultImageUrl'];
                 } catch (CException $e) {
-                    $this->addError($key, $e->getMessage());
+                    $this->owner->addError($key, $e->getMessage());
                     $event->isValid = false;
                 }
             }
