@@ -1,5 +1,5 @@
 {
-  "name": "sagifire/ActiveRecordUploadableImageBehavior",
+  "name": "sagifire/active-record-uploadable-image-behavior",
   "description": "Yii active record uploadable image behavior",
   "keywords": ["yii", "active record", "image", "upload"],
   "homepage": "https://github.com/sagifire/ActiveRecordUploadableImageBehavior",
