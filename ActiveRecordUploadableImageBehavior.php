@@ -24,9 +24,10 @@ class ActiveRecordUploadableImageBehavior extends CActiveRecordBehavior {
 
     public function beforeValidate($event) {
         foreach($this->imageAttributes as $key => $attributeConfig) {
-            $this->owner->{$key} = CUploadedFile::getInstance($this->owner, $key);
-
+            if (!$this->owner->{$key} instanceof CUploadedFile)
+                $this->owner->{$key} = CUploadedFile::getInstance($this->owner, $key);
             if ($this->owner->{$key}) {
+
                 try {
                     Yii::app()->image->load($this->owner->{$key}->getTempName());
                     if (isset($attributeConfig['onUploadAttribute']))
@@ -38,7 +39,6 @@ class ActiveRecordUploadableImageBehavior extends CActiveRecordBehavior {
                     $event->isValid = false;
                 }
             }
-
             if (!$event->isValid)
                 break;
         }
@@ -49,7 +49,7 @@ class ActiveRecordUploadableImageBehavior extends CActiveRecordBehavior {
             if ($this->owner->{$key}) {
                 $saveDir = dirname($this->owner->{$attributeConfig['imagePathGetter']}());
                 if (!(is_dir($saveDir) || mkdir($saveDir, 0775, true))) {
-                    throw new CException('Нет доступа на запись в директорию иконок рангов.');
+                    throw new CException('Нет доступа на запись в директорию картинок.');
                 }
 
                 /** @var Image $imageFile */
@@ -106,8 +106,8 @@ class ActiveRecordUploadableImageBehavior extends CActiveRecordBehavior {
                     unlink($imageFilename);
 
                 $imageFile->save($imageFilename);
-                if (method_exist($this->owner, 'onAfterImageSave')) {
-                    $this->owner->reiseEvent('onAfterImageSave', array(
+                if (method_exists($this->owner, 'onAfterImageSave')) {
+                    $this->owner->onAfterImageSave(array(
                         'image' => $imageFile,
                         'sourceFilename' => $this->owner->{$key}->getTempName(),
                     ));
