@@ -27,7 +27,6 @@ class ActiveRecordUploadableImageBehavior extends CActiveRecordBehavior {
             if (!$this->owner->{$key} instanceof CUploadedFile)
                 $this->owner->{$key} = CUploadedFile::getInstance($this->owner, $key);
             if ($this->owner->{$key}) {
-
                 try {
                     Yii::app()->image->load($this->owner->{$key}->getTempName());
                     if (isset($attributeConfig['onUploadAttribute']))
