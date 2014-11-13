@@ -5,6 +5,7 @@ class ActiveRecordUploadableImageBehavior extends CActiveRecordBehavior {
      * Формат данных
      * array(
      *     'avatarImage' => array(
+     *         'multiplePositionAttribute' => 'multiplePosition',   // not required
      *         'urlAtribute' => 'avatarImageUrl',                   // not required
      *         'onUploadAttribute' => 'onAvatarUploaded',           // not required
      *         'imagePathGetter' => '',
@@ -24,8 +25,18 @@ class ActiveRecordUploadableImageBehavior extends CActiveRecordBehavior {
 
     public function beforeValidate($event) {
         foreach($this->imageAttributes as $key => $attributeConfig) {
-            if (!$this->owner->{$key} instanceof CUploadedFile)
-                $this->owner->{$key} = CUploadedFile::getInstance($this->owner, $key);
+            if (!$this->owner->{$key} instanceof CUploadedFile) {
+
+            	if(isset($attributeConfig['multiplePositionAttribute'])) {
+            		$pos = $this->owner->{$attributeConfig['multiplePositionAttribute']};
+            		$dfname = $key.'['.$pos.']';
+            	} else {
+            		$dfname = $key;
+            	}
+
+            	$this->owner->{$key} = CUploadedFile::getInstance($this->owner, $dfname);
+            }
+                
             if ($this->owner->{$key}) {
                 try {
                     Yii::app()->image->load($this->owner->{$key}->getTempName());
