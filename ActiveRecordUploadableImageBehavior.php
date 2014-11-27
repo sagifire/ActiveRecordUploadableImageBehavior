@@ -39,7 +39,19 @@ class ActiveRecordUploadableImageBehavior extends CActiveRecordBehavior {
                 
             if ($this->owner->{$key}) {
                 try {
-                    Yii::app()->image->load($this->owner->{$key}->getTempName());
+                    $imageFile = Yii::app()->image->load($this->owner->{$key}->getTempName());
+
+                    if (method_exists($this->owner, 'onImageValidate')) {
+                        $this->owner->onImageValidate(array(
+                            'event' => $event,
+                            'attribute' => $key,
+                            'image' => $imageFile,
+                            'sourceFilename' => $this->owner->{$key}->getTempName(),
+                        ));
+                    }
+
+                    if (!$event->isValid)
+                        break;
 
                     if (isset($attributeConfig['onUploadAttribute'])) {
                         $this->owner->{$attributeConfig['onUploadAttribute']} = time();
@@ -145,6 +157,8 @@ class ActiveRecordUploadableImageBehavior extends CActiveRecordBehavior {
 
                 if (method_exists($this->owner, 'onAfterImageSave')) {
                     $this->owner->onAfterImageSave(array(
+                        'event' => $event,
+                        'attribute' => $key,
                         'image' => $imageFile,
                         'sourceFilename' => $this->owner->{$key}->getTempName(),
                     ));
