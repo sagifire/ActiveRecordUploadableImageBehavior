@@ -153,7 +153,7 @@ class ActiveRecordUploadableImageBehavior extends CActiveRecordBehavior {
 
                 $imageFile = $this->saveImageFile($this->owner->{$key}->getTempName(),
                     $this->owner->{$attributeConfig['imagePathGetter']}(),
-                    isset($attributeConfig['defaultSize']) ? attributeConfig['defaultSize'] : null);
+                    isset($attributeConfig['defaultSize']) ? $attributeConfig['defaultSize'] : null);
 
                 if (method_exists($this->owner, 'onAfterImageSave')) {
                     $this->owner->onAfterImageSave(array(
