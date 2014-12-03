@@ -83,7 +83,7 @@ class ActiveRecordUploadableImageBehavior extends CActiveRecordBehavior {
      * @param  array $config Пропорции (width, height, minHeight, mimWidth, maxHeight, maxWidth)
      * @return image        Сохраненное изображение
      */
-    protected function saveImageFile($tempname, $filename, $imageSize) {
+    protected function saveImageFile($tempname, $filename, $imageSize = null) {
         $imageFile = Yii::app()->image->load($tempname);
         $sizeProportion = $imageFile->width / $imageFile->height;
 
@@ -153,7 +153,7 @@ class ActiveRecordUploadableImageBehavior extends CActiveRecordBehavior {
 
                 $imageFile = $this->saveImageFile($this->owner->{$key}->getTempName(),
                     $this->owner->{$attributeConfig['imagePathGetter']}(),
-                    $attributeConfig['defaultSize']);
+                    isset($attributeConfig['defaultSize']) ? attributeConfig['defaultSize'] : null);
 
                 if (method_exists($this->owner, 'onAfterImageSave')) {
                     $this->owner->onAfterImageSave(array(
